@@ -15,7 +15,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, hasSeenLanding } = useAuthStore();
   const segments = useSegments();
   const router = useRouter();
 
@@ -28,13 +28,12 @@ export default function RootLayout() {
 
     const timer = setTimeout(() => {
       if (!mounted) return;
-      const inAuthGroup = segments[0] === 'login' || segments[0] === 'register';
+      const inAuthGroup = segments[0] === 'login' || segments[0] === 'register' || segments[0] === 'landing';
 
       if (!isAuthenticated && !inAuthGroup) {
-        // Redirect to the login page
-        router.replace('/login');
+        // First-time visitor → landing page; returning user → login
+        router.replace(hasSeenLanding ? '/login' : '/landing');
       } else if (isAuthenticated && inAuthGroup) {
-        // Redirect away from the login page
         router.replace('/(tabs)');
       }
     }, 1);
@@ -51,6 +50,8 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
+        <Stack.Screen name="landing" options={{ headerShown: false }} />
+        <Stack.Screen name="profile" options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />

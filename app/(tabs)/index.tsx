@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Bell, Heart, ChevronRight, Activity, Phone, TrendingUp, BookOpenText } from 'lucide-react-native';
+import { router } from 'expo-router';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 const SCORE = 78;
@@ -40,13 +41,16 @@ export default function HomeScreen() {
             }}>
               <Bell color={NAVY} size={18} />
             </TouchableOpacity>
-            <View style={{
-              width: 42, height: 42, borderRadius: 14, overflow: 'hidden',
-              backgroundColor: BLUE, alignItems: 'center', justifyContent: 'center',
-              shadowColor: BLUE, shadowOpacity: 0.4, shadowRadius: 8, elevation: 4,
-            }}>
+            <TouchableOpacity
+              onPress={() => router.push('/profile')}
+              style={{
+                width: 42, height: 42, borderRadius: 14, overflow: 'hidden',
+                backgroundColor: BLUE, alignItems: 'center', justifyContent: 'center',
+                shadowColor: BLUE, shadowOpacity: 0.4, shadowRadius: 8, elevation: 4,
+              }}
+            >
               <Text style={{ color: 'white', fontWeight: '800', fontSize: 15 }}>AO</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
 
